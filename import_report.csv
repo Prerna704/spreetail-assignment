@@ -1,0 +1,43 @@
+row,type,message,severity,action_taken
+5,MEMBER_INACTIVE_ON_EXPENSE_DATE,Payer dev inactive on 2026-02-08,error,ROW_SKIPPED
+6,MEMBER_INACTIVE_ON_EXPENSE_DATE,Payer dev inactive on 2026-02-08,error,ROW_SKIPPED
+11,DUPLICATE_EXPENSE,Possible duplicate expense 6f1b121e-7665-4621-ad39-e8eda858a5a5 (same amount),warning,REVIEW_REQUIRED
+12,DUPLICATE_EXPENSE,Possible duplicate expense c9810acd-de5e-4947-9797-bb47887e441e (same amount),warning,REVIEW_REQUIRED
+13,BLANK_REQUIRED_FIELD,Missing required field: paidBy,error,ROW_SKIPPED
+13,MISSING_MEMBER,Payer not found in group: ,error,ROW_SKIPPED
+14,SETTLEMENT_LOGGED_AS_EXPENSE,Settlement-like entry found in expense import,error,ROW_SKIPPED
+15,INVALID_SPLIT_TOTAL,"Percentage total is 110, expected 100",error,ROW_SKIPPED
+16,INVALID_DATE,Invalid date: 01/03/2026,error,ROW_SKIPPED
+17,INVALID_DATE,Invalid date: 03/03/2026,error,ROW_SKIPPED
+18,INVALID_DATE,Invalid date: 05/03/2026,error,ROW_SKIPPED
+19,INVALID_DATE,Invalid date: 08/03/2026,error,ROW_SKIPPED
+20,INVALID_DATE,Invalid date: 09/03/2026,error,ROW_SKIPPED
+21,INVALID_DATE,Invalid date: 10/03/2026,error,ROW_SKIPPED
+22,INVALID_DATE,Invalid date: 10/03/2026,error,ROW_SKIPPED
+23,INVALID_DATE,Invalid date: 11/03/2026,error,ROW_SKIPPED
+23,MISSING_MEMBER,Participant not found in group: dev's friend kabir,error,ROW_SKIPPED
+24,INVALID_DATE,Invalid date: 11/03/2026,error,ROW_SKIPPED
+25,INVALID_DATE,Invalid date: 11/03/2026,error,ROW_SKIPPED
+26,INVALID_DATE,Invalid date: 12/03/2026,error,ROW_SKIPPED
+26,NEGATIVE_AMOUNT,Amount must be positive: -30,error,ROW_SKIPPED
+27,MEMBER_INACTIVE_ON_EXPENSE_DATE,Payer rohan inactive on 2001-03-14,error,ROW_SKIPPED
+27,MEMBER_INACTIVE_ON_EXPENSE_DATE,aisha inactive on 2001-03-14,error,ROW_SKIPPED
+27,MEMBER_INACTIVE_ON_EXPENSE_DATE,priya inactive on 2001-03-14,error,ROW_SKIPPED
+27,MEMBER_INACTIVE_ON_EXPENSE_DATE,dev inactive on 2001-03-14,error,ROW_SKIPPED
+28,BLANK_REQUIRED_FIELD,Missing required field: currency,error,ROW_SKIPPED
+28,INVALID_CURRENCY,Unsupported currency: ,error,ROW_SKIPPED
+29,DUPLICATE_EXPENSE,Possible duplicate expense 2fa2d870-3e3b-4b64-8c22-71a366574d40 (same amount),warning,REVIEW_REQUIRED
+30,DUPLICATE_EXPENSE,Possible duplicate expense d836b53b-b48a-48d1-9409-d7331c2f1dd7 (same amount),warning,REVIEW_REQUIRED
+31,NEGATIVE_AMOUNT,Amount must be positive: 0,error,ROW_SKIPPED
+32,INVALID_SPLIT_TOTAL,"Percentage total is 110, expected 100",error,ROW_SKIPPED
+33,DUPLICATE_EXPENSE,Possible duplicate expense 55a63807-1131-4ab7-aab2-9feb39e91da2 (same amount),warning,REVIEW_REQUIRED
+34,INVALID_DATE,Invalid date: 04/05/2026,error,ROW_SKIPPED
+35,DUPLICATE_EXPENSE,Possible duplicate expense 8f386f30-2a1e-4bc3-9845-9e9577744ee9 (same amount),warning,REVIEW_REQUIRED
+36,MEMBER_INACTIVE_ON_EXPENSE_DATE,meera inactive on 2026-04-02,error,ROW_SKIPPED
+37,DUPLICATE_EXPENSE,Possible duplicate expense 7dcf9f1c-ac3f-4655-a98e-e6d5226d622d (same amount),warning,REVIEW_REQUIRED
+38,MEMBER_INACTIVE_ON_EXPENSE_DATE,Payer sam inactive on 2026-04-08,error,ROW_SKIPPED
+39,MEMBER_INACTIVE_ON_EXPENSE_DATE,Payer sam inactive on 2026-04-10,error,ROW_SKIPPED
+40,MEMBER_INACTIVE_ON_EXPENSE_DATE,sam inactive on 2026-04-12,error,ROW_SKIPPED
+41,DUPLICATE_EXPENSE,Possible duplicate expense 0b41c055-0d65-4d0e-8b7f-f02f11bbe842 (same amount),warning,REVIEW_REQUIRED
+42,DUPLICATE_EXPENSE,Possible duplicate expense 25c5226a-1ed8-40cf-a49a-10c95349148f (same amount),warning,REVIEW_REQUIRED
+43,DUPLICATE_EXPENSE,Possible duplicate expense 69589cea-4cef-49c2-99d7-26302d36effd (same amount),warning,REVIEW_REQUIRED
