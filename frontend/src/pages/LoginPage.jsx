@@ -38,7 +38,7 @@ export function LoginPage() {
           {error && <p className="alert-error">{error}</p>}
           <button className="btn-primary w-full justify-center">Login</button>
         </div>
-        <div className="mt-5 rounded-md border border-line bg-slate-50 p-3 text-sm text-slate-600">
+        <div className="mt-5 rounded-md border border-line bg-sky-50 p-3 text-sm text-slate-600">
           Demo: <span className="font-medium text-ink">aisha@example.com</span> / <span className="font-medium text-ink">password123</span>
         </div>
         <p className="mt-4 text-sm text-slate-600">
