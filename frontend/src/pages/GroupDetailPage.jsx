@@ -300,7 +300,7 @@ export function GroupDetailPage() {
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="font-medium">{member.name}</p>
-                      <span className={member.leave_date ? 'badge text-slate-500' : 'badge border-sky-200 bg-sky-50 text-accent'}>
+                      <span className={member.leave_date ? 'badge text-slate-500' : 'badge border-violet-200 bg-violet-50 text-accent'}>
                         {member.leave_date ? 'inactive' : 'active'}
                       </span>
                     </div>
@@ -321,7 +321,7 @@ export function GroupDetailPage() {
             </h2>
             <div className="mt-3 space-y-2">
               {balances?.summary.map((row) => (
-                <div key={row.userId} className="flex justify-between rounded-md bg-sky-50 px-3 py-2 text-sm">
+                <div key={row.userId} className="flex justify-between rounded-md bg-violet-50 px-3 py-2 text-sm">
                   <span>{row.name}</span>
                   <span className={row.netAmount >= 0 ? 'text-accent' : 'text-coral'}>
                     {row.netAmount.toFixed(2)}
@@ -333,11 +333,11 @@ export function GroupDetailPage() {
         </aside>
 
         <section className="panel overflow-hidden">
-          <div className="flex flex-wrap gap-2 border-b border-line bg-sky-50 p-3">
+          <div className="flex flex-wrap gap-2 border-b border-line bg-violet-50 p-3">
             {['expenses', 'settlements', 'balances', 'import'].map((tab) => (
               <button
                 key={tab}
-                className={activeTab === tab ? 'bg-accent px-3 py-2 text-white shadow-sm' : 'bg-white px-3 py-2 text-slate-700 hover:bg-sky-100'}
+                className={activeTab === tab ? 'bg-accent px-3 py-2 text-white shadow-sm' : 'bg-white px-3 py-2 text-slate-700 hover:bg-violet-100'}
                 onClick={() => setActiveTab(tab)}
               >
                 {tab[0].toUpperCase() + tab.slice(1)}
@@ -489,7 +489,7 @@ export function GroupDetailPage() {
           {activeTab === 'import' && (
             <div className="p-4">
               {!report && (
-                <label className="block cursor-pointer rounded-lg border border-dashed border-line bg-sky-50 p-8 text-center transition hover:border-accent hover:bg-sky-100/70">
+                <label className="block cursor-pointer rounded-lg border border-dashed border-line bg-violet-50 p-8 text-center transition hover:border-accent hover:bg-violet-100/70">
                   <FileUp className="mx-auto text-slate-300" size={34} />
                   <p className="mt-3 font-medium text-ink">Upload expenses_export.csv</p>
                   <p className="muted mt-1">The import report will list anomalies, actions taken, skipped rows, and imported rows.</p>
@@ -553,7 +553,7 @@ export function GroupDetailPage() {
 
 function Metric({ label, value }) {
   return (
-    <div className="rounded-lg border border-line bg-sky-50 p-4">
+    <div className="rounded-lg border border-line bg-violet-50 p-4">
       <p className="text-sm text-slate-600">{label}</p>
       <p className="mt-1 text-2xl font-semibold text-ink">{value}</p>
     </div>

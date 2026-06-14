@@ -108,7 +108,7 @@ export function DashboardPage() {
           </div>
           <div className="divide-y divide-line">
             {groups.map((group) => (
-              <div key={group.id} className="grid gap-3 p-4 transition hover:bg-sky-50 md:grid-cols-[1fr_auto]">
+              <div key={group.id} className="grid gap-3 p-4 transition hover:bg-violet-50 md:grid-cols-[1fr_auto]">
                 {editingId === group.id ? (
                   <div className="grid gap-2 md:grid-cols-[1fr_120px]">
                     <input value={editForm.name} onChange={(event) => setEditForm({ ...editForm, name: event.target.value })} />
@@ -173,7 +173,7 @@ export function DashboardPage() {
 
 function SummaryTile({ icon, label, value }) {
   return (
-    <div className="min-w-28 rounded-lg border border-line bg-sky-50 px-4 py-3">
+    <div className="min-w-28 rounded-lg border border-line bg-violet-50 px-4 py-3">
       <div className="flex items-center gap-2 text-slate-500">
         {icon}
         <span className="text-xs font-medium">{label}</span>
