@@ -1,0 +1,19 @@
+{
+  "name": "shared-expense-manager",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Production-ready Splitwise-style shared expense management application.",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "build": "npm run build --workspace frontend",
+    "start": "npm run start --workspace backend",
+    "lint": "npm run lint --workspace backend && npm run lint --workspace frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}
