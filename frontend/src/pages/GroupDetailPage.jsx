@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Calculator, Download, FileUp, Pencil, Plus, Save, Trash2, UsersRound, X } from 'lucide-react';
 import { api } from '../api/client.js';
+import { Toast, useToastState } from '../components/Toast.jsx';
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -51,6 +52,7 @@ export function GroupDetailPage() {
     settlementDate: today,
     note: ''
   });
+  const { toast, showToast, clearToast } = useToastState(useState);
 
   const activeMembers = useMemo(
     () => members.filter((member) => !member.leave_date || new Date(member.leave_date) >= new Date(today)),
@@ -111,9 +113,11 @@ export function GroupDetailPage() {
     try {
       await api.patch(`/groups/${groupId}`, groupForm);
       setEditingGroup(false);
+      showToast({ type: 'success', title: 'Group updated' });
       await loadAll();
     } catch (apiError) {
       setError(getApiMessage(apiError, 'Could not update group'));
+      showToast({ type: 'error', title: 'Group update failed', message: getApiMessage(apiError, 'Could not update group') });
     }
   }
 
@@ -122,9 +126,11 @@ export function GroupDetailPage() {
     if (!confirmed) return;
     try {
       await api.delete(`/groups/${groupId}`);
+      showToast({ type: 'success', title: 'Group deleted' });
       navigate('/');
     } catch (apiError) {
       setError(getApiMessage(apiError, 'Could not delete group'));
+      showToast({ type: 'error', title: 'Delete failed', message: getApiMessage(apiError, 'Could not delete group') });
     }
   }
 
@@ -134,9 +140,11 @@ export function GroupDetailPage() {
     try {
       await api.post(`/groups/${groupId}/members`, { email: memberForm.email, joinDate: memberForm.joinDate });
       setMemberForm({ ...memberForm, email: '' });
+      showToast({ type: 'success', title: 'Member added' });
       await loadAll();
     } catch (apiError) {
       setError(getApiMessage(apiError, 'Could not add member'));
+      showToast({ type: 'error', title: 'Member not added', message: getApiMessage(apiError, 'Could not add member') });
     }
   }
 
@@ -144,9 +152,11 @@ export function GroupDetailPage() {
     setError('');
     try {
       await api.delete(`/groups/${groupId}/members`, { data: { email: member.email, leaveDate: memberForm.leaveDate } });
+      showToast({ type: 'success', title: 'Member leave date set' });
       await loadAll();
     } catch (apiError) {
       setError(getApiMessage(apiError, 'Could not remove member'));
+      showToast({ type: 'error', title: 'Member update failed', message: getApiMessage(apiError, 'Could not remove member') });
     }
   }
 
@@ -158,9 +168,11 @@ export function GroupDetailPage() {
       const participants = expenseForm.participants.filter((participant) => participant.userId && activeMemberIds.has(participant.userId));
       await api.post(`/groups/${groupId}/expenses`, { ...expenseForm, amount: Number(expenseForm.amount), participants });
       setExpenseForm({ ...expenseForm, description: '', amount: '' });
+      showToast({ type: 'success', title: 'Expense added' });
       await loadAll();
     } catch (apiError) {
       setError(getApiMessage(apiError, 'Could not add expense'));
+      showToast({ type: 'error', title: 'Expense not added', message: getApiMessage(apiError, 'Could not add expense') });
     }
   }
 
@@ -168,9 +180,11 @@ export function GroupDetailPage() {
     setError('');
     try {
       await api.delete(`/expenses/${expenseId}`);
+      showToast({ type: 'success', title: 'Expense deleted' });
       await loadAll();
     } catch (apiError) {
       setError(getApiMessage(apiError, 'Could not delete expense'));
+      showToast({ type: 'error', title: 'Delete failed', message: getApiMessage(apiError, 'Could not delete expense') });
     }
   }
 
@@ -180,9 +194,11 @@ export function GroupDetailPage() {
     try {
       await api.post(`/groups/${groupId}/settlements`, { ...settlementForm, amount: Number(settlementForm.amount) });
       setSettlementForm({ ...settlementForm, amount: '', note: '' });
+      showToast({ type: 'success', title: 'Payment recorded' });
       await loadAll();
     } catch (apiError) {
       setError(getApiMessage(apiError, 'Could not record settlement'));
+      showToast({ type: 'error', title: 'Payment not recorded', message: getApiMessage(apiError, 'Could not record settlement') });
     }
   }
 
@@ -196,10 +212,16 @@ export function GroupDetailPage() {
       const { data } = await api.post(`/groups/${groupId}/imports/csv`, formData);
       setReport(data.report);
       setActiveTab('import');
+      showToast({
+        type: 'success',
+        title: 'CSV imported',
+        message: `${data.report.rowsImported} imported, ${data.report.rowsSkipped} skipped`
+      });
       await loadAll();
     } catch (apiError) {
       setActiveTab('import');
       setError(getApiMessage(apiError, 'Could not upload CSV'));
+      showToast({ type: 'error', title: 'CSV upload failed', message: getApiMessage(apiError, 'Could not upload CSV') });
     } finally {
       event.target.value = '';
     }
@@ -217,8 +239,10 @@ export function GroupDetailPage() {
       link.click();
       link.remove();
       window.URL.revokeObjectURL(blobUrl);
+      showToast({ type: 'success', title: 'CSV downloaded' });
     } catch (apiError) {
       setError(getApiMessage(apiError, 'Could not download CSV'));
+      showToast({ type: 'error', title: 'Download failed', message: getApiMessage(apiError, 'Could not download CSV') });
     }
   }
 
@@ -228,6 +252,7 @@ export function GroupDetailPage() {
 
   return (
     <div className="space-y-6">
+      <Toast toast={toast} onClose={clearToast} />
       <section className="panel flex flex-wrap items-start justify-between gap-4 p-5">
         <div className="min-w-[280px] flex-1">
           {editingGroup ? (

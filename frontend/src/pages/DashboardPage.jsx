@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, ExternalLink, Pencil, Plus, RefreshCcw, Trash2, UsersRound, WalletCards, X } from 'lucide-react';
 import { api } from '../api/client.js';
+import { Toast, useToastState } from '../components/Toast.jsx';
 
 export function DashboardPage() {
   const [groups, setGroups] = useState([]);
@@ -9,6 +10,7 @@ export function DashboardPage() {
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ name: '', baseCurrency: 'INR' });
   const [error, setError] = useState('');
+  const { toast, showToast, clearToast } = useToastState(useState);
 
   async function loadGroups() {
     try {
@@ -17,11 +19,22 @@ export function DashboardPage() {
       setError('');
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Could not load groups');
+      showToast({ type: 'error', title: 'Could not load groups', message: apiError.response?.data?.message });
     }
   }
 
   useEffect(() => {
-    loadGroups();
+    async function loadInitialGroups() {
+      try {
+        const { data } = await api.get('/groups');
+        setGroups(data.groups);
+        setError('');
+      } catch (apiError) {
+        setError(apiError.response?.data?.message || 'Could not load groups');
+      }
+    }
+
+    loadInitialGroups();
   }, []);
 
   async function createGroup(event) {
@@ -29,9 +42,11 @@ export function DashboardPage() {
     try {
       await api.post('/groups', form);
       setForm({ name: '', baseCurrency: 'INR' });
+      showToast({ type: 'success', title: 'Group created' });
       await loadGroups();
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Could not create group');
+      showToast({ type: 'error', title: 'Group not created', message: apiError.response?.data?.message || 'Could not create group' });
     }
   }
 
@@ -44,9 +59,11 @@ export function DashboardPage() {
     try {
       await api.patch(`/groups/${groupId}`, editForm);
       setEditingId(null);
+      showToast({ type: 'success', title: 'Group updated' });
       await loadGroups();
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Could not update group');
+      showToast({ type: 'error', title: 'Group not updated', message: apiError.response?.data?.message || 'Could not update group' });
     }
   }
 
@@ -55,14 +72,17 @@ export function DashboardPage() {
     if (!confirmed) return;
     try {
       await api.delete(`/groups/${groupId}`);
+      showToast({ type: 'success', title: 'Group deleted' });
       await loadGroups();
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Could not delete group');
+      showToast({ type: 'error', title: 'Group not deleted', message: apiError.response?.data?.message || 'Could not delete group' });
     }
   }
 
   return (
     <div className="space-y-6">
+      <Toast toast={toast} onClose={clearToast} />
       <section className="panel overflow-hidden">
         <div className="grid gap-4 border-b border-line bg-white/90 p-5 md:grid-cols-[1fr_auto] md:items-center">
           <div>
