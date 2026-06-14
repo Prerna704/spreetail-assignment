@@ -70,11 +70,15 @@ export function GroupDetailPage() {
     setExpenses(expensesResponse.data.expenses);
     setSettlements(settlementsResponse.data.settlements);
     setBalances(balancesResponse.data.balances);
+    const currentlyActiveMembers = groupResponse.data.members.filter((member) => {
+      const leaveDate = member.leave_date ? new Date(member.leave_date) : null;
+      return !leaveDate || leaveDate >= new Date(today);
+    });
     setExpenseForm((current) => ({
       ...current,
       currency: groupResponse.data.group.base_currency,
-      paidBy: groupResponse.data.members[0]?.user_id || '',
-      participants: groupResponse.data.members.map((member) => ({ userId: member.user_id }))
+      paidBy: currentlyActiveMembers[0]?.user_id || '',
+      participants: currentlyActiveMembers.map((member) => ({ userId: member.user_id }))
     }));
     setSettlementForm((current) => ({
       ...current,
@@ -148,9 +152,10 @@ export function GroupDetailPage() {
 
   async function submitExpense(event) {
     event.preventDefault();
-    setError('');
+      setError('');
     try {
-      const participants = expenseForm.participants.filter((participant) => participant.userId);
+      const activeMemberIds = new Set(activeMembers.map((member) => member.user_id));
+      const participants = expenseForm.participants.filter((participant) => participant.userId && activeMemberIds.has(participant.userId));
       await api.post(`/groups/${groupId}/expenses`, { ...expenseForm, amount: Number(expenseForm.amount), participants });
       setExpenseForm({ ...expenseForm, description: '', amount: '' });
       await loadAll();
@@ -416,7 +421,7 @@ export function GroupDetailPage() {
                   <tbody className="divide-y divide-line">
                     {expenses.map((expense) => (
                       <tr key={expense.id}>
-                        <td className="p-3">{expense.expense_date}</td>
+                        <td className="p-3">{formatDateOnly(expense.expense_date)}</td>
                         <td className="p-3">{expense.description}</td>
                         <td className="p-3">{expense.paid_by_name}</td>
                         <td className="p-3">{expense.currency} {Number(expense.amount).toFixed(2)}</td>
